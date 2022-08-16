@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Timeline from "@/components/Timeline.vue";
+</script>
 
 <template>
-  <h1>Hello, World!</h1>
+  <Timeline />
 </template>
 
 <style></style>
