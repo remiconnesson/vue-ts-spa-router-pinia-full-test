@@ -3,7 +3,11 @@ import Timeline from "@/components/Timeline.vue";
 </script>
 
 <template>
-  <Timeline />
+  <div class="section">
+    <div class="container">
+      <Timeline></Timeline>
+    </div>
+  </div>
 </template>
 
 <style>
