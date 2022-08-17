@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import Timeline from "@/components/Timeline.vue";
-import { usePosts } from "@/stores/posts";
-
-const postsStore = usePosts();
 </script>
 
 <template>
-  {{ postsStore.foo }}
-  <button @click="postsStore.updateFoo('yolo')"></button>
   <div class="section">
     <div class="container">
       <Timeline></Timeline>
