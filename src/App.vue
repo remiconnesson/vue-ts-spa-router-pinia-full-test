@@ -6,7 +6,7 @@ const postsStore = usePosts();
 </script>
 
 <template>
-  {{ postsStore.getState().foo }}
+  {{ postsStore.foo }}
   <button @click="postsStore.updateFoo('yolo')"></button>
   <div class="section">
     <div class="container">
