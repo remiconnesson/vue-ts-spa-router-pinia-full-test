@@ -10,5 +10,11 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "esModuleInterop": true
+    }
+  }
 }

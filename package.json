@@ -11,12 +11,18 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "type-check-watch": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false --watch",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "server": "ts-node ./src/server/index.ts"
   },
   "dependencies": {
+    "@types/cors": "2.8",
+    "@types/express": "4.17",
     "@types/luxon": "^2.3.1",
+    "cors": "2.8",
+    "express": "4.17",
     "luxon": "^2.3.1",
     "pinia": "^2.0.17",
+    "ts-node": "^10.9.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },
