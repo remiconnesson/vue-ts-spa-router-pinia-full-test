@@ -4,6 +4,8 @@ import { usePosts } from "@/stores/posts";
 import { periods } from "@/constants";
 
 const postsStore = usePosts();
+
+postsStore.fetchPosts();
 </script>
 
 <template>

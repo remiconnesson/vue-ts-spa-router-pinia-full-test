@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import type { Post, TimelinePost } from "@/posts";
-import { today, thisWeek, thisMonth } from "@/posts";
 import type { Period } from "@/constants";
 import { DateTime } from "luxon";
 
@@ -10,19 +9,39 @@ interface PostsState {
   selectedPeriod: Period;
 }
 
+// utility function to simulate delay
+function delay() {
+  return new Promise<void>((res) => setTimeout(res, 1500));
+}
+
 export const usePosts = defineStore("posts", {
   state: (): PostsState => ({
-    ids: [today.id, thisWeek.id, thisMonth.id],
-    all: new Map([
-      [today.id, today],
-      [thisWeek.id, thisWeek],
-      [thisMonth.id, thisMonth],
-    ]),
+    ids: [],
+    all: new Map(),
     selectedPeriod: "Today",
   }),
   actions: {
     setSelectedPeriod(period: Period) {
       this.selectedPeriod = period;
+    },
+    async fetchPosts() {
+      // fetch
+      const res = await window.fetch("http://localhost:8000/posts");
+      const data = (await res.json()) as Post[];
+      await delay();
+
+      // collect
+      const ids: string[] = [];
+      const all: Map<string, Post> = new Map();
+
+      for (const post of data) {
+        ids.push(post.id);
+        all.set(post.id, post);
+      }
+
+      // update state
+      this.ids = ids;
+      this.all = all;
     },
   },
   // getters are like computed properties
