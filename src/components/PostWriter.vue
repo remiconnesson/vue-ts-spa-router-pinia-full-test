@@ -3,6 +3,7 @@ import { ref, onMounted, watchEffect } from "vue";
 import type { TimelinePost } from "@/posts";
 import { marked } from "marked";
 import highlightjs from "highlight.js";
+import { debounce } from "lodash";
 
 const props = defineProps<{
   post: TimelinePost;
@@ -13,6 +14,7 @@ const content = ref(props.post.markdown);
 const contentEditable = ref<HTMLDivElement>();
 const html = ref("");
 
+// Will update html preview when content.value is updated
 watchEffect(() => {
   marked.parse(
     content.value,
@@ -36,12 +38,13 @@ onMounted(() => {
   contentEditable.value.innerText = content.value;
 });
 
-function handleInput() {
+/* debounce will avoid calling the parse function too often */
+const handleInput = debounce(() => {
   if (!contentEditable.value) {
     throw Error("ContentEditable DOM node was not found");
   }
   content.value = contentEditable.value.innerText;
-}
+}, 250);
 </script>
 
 <template>
