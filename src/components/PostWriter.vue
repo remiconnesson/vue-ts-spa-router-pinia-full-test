@@ -5,6 +5,7 @@ import { marked } from "marked";
 import highlightjs from "highlight.js";
 import { debounce } from "lodash";
 import { usePosts } from "@/stores/posts";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   post: TimelinePost;
@@ -15,6 +16,7 @@ const content = ref(props.post.markdown);
 const contentEditable = ref<HTMLDivElement>();
 const html = ref("");
 const posts = usePosts();
+const router = useRouter();
 
 // Will update html preview when content.value is updated
 watchEffect(() => {
@@ -48,7 +50,7 @@ const handleInput = debounce(() => {
   content.value = contentEditable.value.innerText;
 }, 250);
 
-function handleClick() {
+async function handleClick() {
   const newPost: TimelinePost = {
     ...props.post,
     title: title.value,
@@ -56,7 +58,8 @@ function handleClick() {
     html: html.value,
   };
 
-  posts.createPost(newPost);
+  await posts.createPost(newPost);
+  router.push({ name: "home" });
 }
 </script>
 
