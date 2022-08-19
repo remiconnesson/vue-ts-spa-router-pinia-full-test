@@ -17,10 +17,14 @@
   "dependencies": {
     "@types/cors": "2.8",
     "@types/express": "4.17",
+    "@types/lodash": "^4.14.184",
     "@types/luxon": "^2.3.1",
     "cors": "2.8",
     "express": "4.17",
+    "highlight.js": "^11.6.0",
+    "lodash": "^4.17.21",
     "luxon": "^2.3.1",
+    "marked": "^4.0.18",
     "pinia": "^2.0.17",
     "ts-node": "^10.9.1",
     "vue": "^3.2.37",
@@ -29,6 +33,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/jsdom": "^20.0.0",
+    "@types/marked": "^4.0.5",
     "@types/node": "^16.11.47",
     "@vitejs/plugin-vue": "^3.0.1",
     "@vue/eslint-config-prettier": "^7.0.0",

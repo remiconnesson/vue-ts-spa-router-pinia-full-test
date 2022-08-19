@@ -1,17 +1,47 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 import type { TimelinePost } from "@/posts";
+import { marked } from "marked";
+import highlightjs from "highlight.js";
+
 const props = defineProps<{
   post: TimelinePost;
 }>();
 
 const title = ref(props.post.title);
-
+const content = ref(props.post.markdown);
 const contentEditable = ref<HTMLDivElement>();
+const html = ref("");
+
+watchEffect(() => {
+  marked.parse(
+    content.value,
+    {
+      gfm: true,
+      breaks: true,
+      highlight: (code) => {
+        return highlightjs.highlightAuto(code).value; // not a ref
+      },
+    },
+    (err, parseResult) => {
+      html.value = parseResult;
+    }
+  );
+});
 
 onMounted(() => {
-  console.log(contentEditable.value?.innerText);
+  if (!contentEditable.value) {
+    throw Error("ContentEditable DOM node was not found");
+  }
+  contentEditable.value.innerText = content.value;
 });
+
+function handleInput() {
+  if (!contentEditable.value) {
+    throw Error("ContentEditable DOM node was not found");
+  }
+  content.value = contentEditable.value.innerText;
+}
 </script>
 
 <template>
@@ -25,8 +55,8 @@ onMounted(() => {
   </div>
   <div class="columns">
     <div class="column">
-      <div contenteditable ref="contentEditable">This is editable</div>
+      <div contenteditable ref="contentEditable" @input="handleInput" />
     </div>
-    <div class="column">Preview</div>
+    <div class="column"><div v-html="html" /></div>
   </div>
 </template>
