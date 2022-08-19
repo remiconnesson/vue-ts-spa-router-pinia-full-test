@@ -57,6 +57,31 @@ function handleInput() {
     <div class="column">
       <div contenteditable ref="contentEditable" @input="handleInput" />
     </div>
-    <div class="column"><div v-html="html" /></div>
+    <div class="column"><div id="preview" v-html="html" /></div>
   </div>
 </template>
+
+<style>
+ul {
+  list-style: revert !important;
+  list-style-position: inside !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: revert !important;
+  margin: 10px 0 !important;
+}
+
+pre {
+  margin: 10px 0 !important;
+}
+
+p {
+  margin: 10px 0 !important;
+}
+</style>
