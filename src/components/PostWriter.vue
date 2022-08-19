@@ -4,6 +4,7 @@ import type { TimelinePost } from "@/posts";
 import { marked } from "marked";
 import highlightjs from "highlight.js";
 import { debounce } from "lodash";
+import { usePosts } from "@/stores/posts";
 
 const props = defineProps<{
   post: TimelinePost;
@@ -13,6 +14,7 @@ const title = ref(props.post.title);
 const content = ref(props.post.markdown);
 const contentEditable = ref<HTMLDivElement>();
 const html = ref("");
+const posts = usePosts();
 
 // Will update html preview when content.value is updated
 watchEffect(() => {
@@ -45,6 +47,17 @@ const handleInput = debounce(() => {
   }
   content.value = contentEditable.value.innerText;
 }, 250);
+
+function handleClick() {
+  const newPost: TimelinePost = {
+    ...props.post,
+    title: title.value,
+    markdown: content.value,
+    html: html.value,
+  };
+
+  posts.createPost(newPost);
+}
 </script>
 
 <template>
@@ -61,6 +74,13 @@ const handleInput = debounce(() => {
       <div contenteditable ref="contentEditable" @input="handleInput" />
     </div>
     <div class="column"><div id="preview" v-html="html" /></div>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <button class="button is-primary is-pulled-right" @click="handleClick">
+        Save Post
+      </button>
+    </div>
   </div>
 </template>
 
