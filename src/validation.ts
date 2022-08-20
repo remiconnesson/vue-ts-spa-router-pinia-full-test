@@ -44,6 +44,9 @@ if (import.meta.vitest) {
   // @ts-expect-error -- same as above -- TODO: open an issue on vitest repo
   const { describe, it, expect, beforeAll } = import.meta.vitest; // dynamic import
 
+  /*
+   * Length Function test-suite
+   */
   describe("The length function", () => {
     it("Should block too short values", () => {
       const result = length({ min: 5, max: 10 })("cinq!");
@@ -69,6 +72,9 @@ if (import.meta.vitest) {
     });
   });
 
+  /*
+   * Required Function test-suite
+   */
   describe("The required function", () => {
     it("Should return a valid status when a value is passed", () => {
       const result = required("I'm here");
@@ -83,6 +89,9 @@ if (import.meta.vitest) {
     });
   });
 
+  /*
+   * Validate Function test-suite
+   */
   describe("The validate function", () => {
     // helper variables
     let dummyValue: string; // the rules won't check the value passed
