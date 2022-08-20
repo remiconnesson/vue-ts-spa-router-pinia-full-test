@@ -14,6 +14,19 @@ export function required(value: string): Status {
   };
 }
 
+export function length({ min, max }: { min: number; max: number }): Rule {
+  return function (value: string): Status {
+    const result = Boolean(value.length > min && value.length < max);
+
+    return {
+      valid: result,
+      message: result
+        ? undefined
+        : `This field must be between ${min} and ${max} characters`,
+    };
+  };
+}
+
 export function validate(value: string, rules: Rule[]): Status {
   for (const rule of rules) {
     const result = rule(value);
@@ -30,6 +43,31 @@ export function validate(value: string, rules: Rule[]): Status {
 if (import.meta.vitest) {
   // @ts-expect-error -- same as above -- TODO: open an issue on vitest repo
   const { describe, it, expect, beforeAll } = import.meta.vitest; // dynamic import
+
+  describe("The length function", () => {
+    it("Should block too short values", () => {
+      const result = length({ min: 5, max: 10 })("cinq!");
+      expect(result.valid).toBe(false);
+    });
+
+    it("Should block too long values", () => {
+      const result = length({ min: 5, max: 10 })("dixdixdix!");
+      expect(result.valid).toBe(false);
+    });
+
+    it("Should have helpful error message", () => {
+      const result = length({ min: 1, max: 2 })("trois");
+      expect(result.valid).toBe(false);
+      expect(result.message).toMatch(/1/);
+      expect(result.message).toMatch(/2/);
+    });
+
+    it("Should pass if length is just righ, w/o a message", () => {
+      const result = length({ min: 5, max: 10 })("Ok, :)");
+      expect(result.valid).toBe(true);
+      expect(result.message).not.toBeDefined();
+    });
+  });
 
   describe("The required function", () => {
     it("Should return a valid status when a value is passed", () => {
