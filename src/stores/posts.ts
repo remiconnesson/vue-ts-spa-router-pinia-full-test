@@ -26,7 +26,9 @@ export const usePosts = defineStore("posts", {
     },
     async fetchPosts() {
       // fetch
-      const res = await window.fetch("http://localhost:8000/posts");
+      const res = await window.fetch(
+        `http://${import.meta.env.VITE_BACKEND_URL}:8000/posts`
+      );
       const data = (await res.json()) as Post[];
       await delay();
 
@@ -45,13 +47,16 @@ export const usePosts = defineStore("posts", {
     },
     async createPost(post: TimelinePost) {
       const body = JSON.stringify({ ...post, created: post.created.toISO() });
-      return await window.fetch("http://localhost:8000/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
-      });
+      return await window.fetch(
+        `http://${import.meta.env.VITE_BACKEND_URL}:8000/posts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        }
+      );
     },
   },
   // getters are like computed properties
