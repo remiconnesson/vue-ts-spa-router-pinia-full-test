@@ -5,14 +5,14 @@ interface Status {
 
 type Rule = (value: string) => Status;
 
-export function required(value: string): Status {
+const required: Rule = (value: string): Status => {
   const result = Boolean(value);
 
   return {
     valid: result,
     message: result ? undefined : "This field is required",
   };
-}
+};
 
 export function length({ min, max }: { min: number; max: number }): Rule {
   return function (value: string): Status {
