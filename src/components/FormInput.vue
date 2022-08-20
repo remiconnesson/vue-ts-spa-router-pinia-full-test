@@ -4,9 +4,14 @@ defineProps<{
   modelValue: string;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   (event: "update:modelValue", value: string): void;
 }>();
+
+function handleInput(e: Event) {
+  const value = (e.target as HTMLInputElement).value;
+  emit("update:modelValue", value);
+}
 </script>
 
 <template>
@@ -17,7 +22,7 @@ defineEmits<{
         class="input"
         type="text"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="handleInput"
       />
     </div>
   </div>
