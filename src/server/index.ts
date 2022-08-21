@@ -50,6 +50,17 @@ app.post<never, Omit<User, "password">, NewUser>("/users", (req, res) => {
   res.json(userWithoutPassword);
 });
 
+app.post<never, never, NewUser>("/login", (req, res) => {
+  const targetUser = allUsers.find((x) => x.username === req.body.username);
+
+  if (!targetUser || targetUser.password !== req.body.password) {
+    res.sendStatus(401);
+  } else {
+    authenticate(targetUser.id, req as Request, res as Response);
+    res.sendStatus(200);
+  }
+});
+
 app.post("/logout", (req, res) => {
   res.cookie(COOKIE, "", { httpOnly: true });
   res.sendStatus(200);
