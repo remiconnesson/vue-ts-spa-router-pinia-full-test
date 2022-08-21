@@ -50,6 +50,16 @@ app.post<never, Omit<User, "password">, NewUser>("/users", (req, res) => {
   res.json(userWithoutPassword);
 });
 
+app.get("/current-user", (req, res) => {
+  try {
+    const token = req.cookies[COOKIE];
+    const result = jsonwebtoken.verify(token, SECRET) as { id: string };
+    res.json({ id: result.id });
+  } catch (e) {
+    res.sendStatus(404);
+  }
+});
+
 app.listen(8000, () => {
   console.log("Listening on port 8000");
 });
