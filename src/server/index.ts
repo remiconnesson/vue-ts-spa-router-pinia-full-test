@@ -23,7 +23,23 @@ app.post<never, Post, Post>("/posts", (req, res) => {
   const id = (Math.random() * 100000).toFixed();
   const post = { ...req.body, id: id };
   allPosts.push(post);
-  res.json(post);
+  res.sendStatus(201);
+});
+
+app.put<never, Post, Post>("/posts", (req, res) => {
+  const post = req.body;
+  const index = allPosts.findIndex((x) => x.id === post.id);
+
+  // TODO : authenticate
+  // TODO : id tempering
+
+  if (index === -1) {
+    throw Error(`Post with id ${post.id} was not found`);
+  }
+
+  allPosts[index] = post;
+
+  res.sendStatus(201);
 });
 
 const SECRET = "dqsdqs";
