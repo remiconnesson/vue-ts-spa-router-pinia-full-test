@@ -50,6 +50,11 @@ app.post<never, Omit<User, "password">, NewUser>("/users", (req, res) => {
   res.json(userWithoutPassword);
 });
 
+app.post("/logout", (req, res) => {
+  res.cookie(COOKIE, "", { httpOnly: true });
+  res.sendStatus(200);
+});
+
 app.get("/current-user", (req, res) => {
   try {
     const token = req.cookies[COOKIE];
