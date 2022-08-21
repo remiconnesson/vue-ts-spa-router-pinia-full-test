@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { useModal } from "@/composables/modal";
 import { useUsers } from "@/stores/users";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const modal = useModal();
 const usersStore = useUsers();
+
+async function logout() {
+  usersStore.logout();
+  router.push({ name: "home" });
+}
 </script>
 
 <template>
@@ -15,7 +23,7 @@ const usersStore = useUsers();
           <RouterLink :to="{ name: 'new-post' }" class="button"
             >New Post</RouterLink
           >
-          <button class="button" @click="usersStore.logout">Logout</button>
+          <button class="button" @click="logout">Logout</button>
         </div>
         <div v-else>
           <button class="button" @click="modal.showModal('signUp')">
