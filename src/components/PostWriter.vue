@@ -4,21 +4,21 @@ import type { Post, TimelinePost } from "@/posts";
 import { marked } from "marked";
 import highlightjs from "highlight.js";
 import { debounce } from "lodash";
-import { usePosts } from "@/stores/posts";
-import { useRouter } from "vue-router";
 import { useUsers } from "@/stores/users";
 
 const props = defineProps<{
   post: TimelinePost | Post;
 }>();
 
+const emit = defineEmits<{
+  (event: "submit", payload: Post): void;
+}>();
+
 const title = ref(props.post.title);
 const content = ref(props.post.markdown);
 const contentEditable = ref<HTMLDivElement>();
 const html = ref("");
-const posts = usePosts();
 const usersStore = useUsers();
-const router = useRouter();
 
 // Will update html preview when content.value is updated
 watchEffect(() => {
@@ -74,8 +74,7 @@ async function handleClick() {
     created: createdAt,
   };
 
-  await posts.createPost(newPost);
-  router.push({ name: "home" });
+  emit("submit", newPost);
 }
 </script>
 
