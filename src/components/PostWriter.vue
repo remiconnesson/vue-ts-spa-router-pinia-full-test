@@ -6,6 +6,7 @@ import highlightjs from "highlight.js";
 import { debounce } from "lodash";
 import { usePosts } from "@/stores/posts";
 import { useRouter } from "vue-router";
+import { useUsers } from "@/stores/users";
 
 const props = defineProps<{
   post: TimelinePost | Post;
@@ -16,6 +17,7 @@ const content = ref(props.post.markdown);
 const contentEditable = ref<HTMLDivElement>();
 const html = ref("");
 const posts = usePosts();
+const usersStore = useUsers();
 const router = useRouter();
 
 // Will update html preview when content.value is updated
@@ -59,10 +61,15 @@ async function handleClick() {
     createdAt = props.post.created.toISO();
   }
 
+  if (!usersStore.currentUserId) {
+    throw Error("User not found yet required for this operation");
+  }
+
   const newPost: Post = {
     ...props.post,
     title: title.value,
     markdown: content.value,
+    author: usersStore.currentUserId,
     html: html.value,
     created: createdAt,
   };
