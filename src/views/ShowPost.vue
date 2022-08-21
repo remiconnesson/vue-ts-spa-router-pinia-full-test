@@ -16,6 +16,11 @@ if (!post) {
   <div class="columns">
     <div class="column"></div>
     <div class="column is-two-thirds">
+      <RouterLink
+        class="is-link button is-rounder"
+        :to="`/posts/${post.id}/edit`"
+        >Edit Post</RouterLink
+      >
       <h1>{{ post.title }}</h1>
       <div v-html="post.html" />
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watchEffect } from "vue";
-import type { TimelinePost } from "@/posts";
+import type { Post, TimelinePost } from "@/posts";
 import { marked } from "marked";
 import highlightjs from "highlight.js";
 import { debounce } from "lodash";
@@ -8,7 +8,7 @@ import { usePosts } from "@/stores/posts";
 import { useRouter } from "vue-router";
 
 const props = defineProps<{
-  post: TimelinePost;
+  post: TimelinePost | Post;
 }>();
 
 const title = ref(props.post.title);
@@ -51,11 +51,20 @@ const handleInput = debounce(() => {
 }, 250);
 
 async function handleClick() {
-  const newPost: TimelinePost = {
+  let createdAt: string;
+  if (typeof props.post.created === "string") {
+    createdAt = props.post.created;
+  } else {
+    // luxon.DateTime
+    createdAt = props.post.created.toISO();
+  }
+
+  const newPost: Post = {
     ...props.post,
     title: title.value,
     markdown: content.value,
     html: html.value,
+    created: createdAt,
   };
 
   await posts.createPost(newPost);
