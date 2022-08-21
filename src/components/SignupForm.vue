@@ -41,8 +41,18 @@ async function handleSubmit() {
 
 <template>
   <form class="form" @submit.prevent="handleSubmit">
-    <FormInput name="Username" v-model="username" :status="usernameStatus" />
-    <FormInput name="Password" v-model="password" :status="passwordStatus" />
+    <FormInput
+      name="Username"
+      type="text"
+      v-model="username"
+      :status="usernameStatus"
+    />
+    <FormInput
+      name="Password"
+      type="password"
+      v-model="password"
+      :status="passwordStatus"
+    />
     <button class="button" :disabled="isInvalid">Submit</button>
   </form>
 </template>
