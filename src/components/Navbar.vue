@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import SignupForm from "@/components/SignupForm.vue";
-// import { ref } from "vue";
 import { useModal } from "@/composables/modal";
 import { useUsers } from "@/stores/users";
 
-const { showModal } = useModal();
+const modal = useModal();
 const usersStore = useUsers();
 </script>
 
@@ -20,11 +18,17 @@ const usersStore = useUsers();
           <button class="button" @click="usersStore.logout">Logout</button>
         </div>
         <div v-else>
-          <button class="button" @click="showModal">Sign Up</button>
-          <button class="button" @click="showModal">Sign In</button>
+          <button class="button" @click="modal.showModal('signUp')">
+            Sign Up
+          </button>
+          <button class="button" @click="modal.showModal('signUp')">
+            Sign In
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <Teleport to="#modal"><SignupForm></SignupForm></Teleport>
+  <Teleport to="#modal">
+    <component :is="modal.component.value"></component>
+  </Teleport>
 </template>
