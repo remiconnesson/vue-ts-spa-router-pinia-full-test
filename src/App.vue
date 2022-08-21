@@ -14,7 +14,7 @@ const modalStyle = computed(() => {
 
 <template>
   <div class="modal" :style="modalStyle" style="color: white">
-    <div class="modal-background" @click="modal.hideModal">
+    <div class="modal-background">
       <div class="modal-content">
         <div id="modal"></div>
       </div>

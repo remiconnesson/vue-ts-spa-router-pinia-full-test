@@ -1,11 +1,11 @@
-interface Status {
+export interface Status {
   valid: boolean;
   message?: string;
 }
 
 type Rule = (value: string) => Status;
 
-const required: Rule = (value: string): Status => {
+export const required: Rule = (value: string): Status => {
   const result = Boolean(value);
 
   return {
