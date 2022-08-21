@@ -21,7 +21,7 @@ const usersStore = useUsers();
           <button class="button" @click="modal.showModal('signUp')">
             Sign Up
           </button>
-          <button class="button" @click="modal.showModal('signUp')">
+          <button class="button" @click="modal.showModal('signIn')">
             Sign In
           </button>
         </div>
