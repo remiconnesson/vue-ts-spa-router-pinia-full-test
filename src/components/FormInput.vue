@@ -28,6 +28,8 @@ function handleInput(e: Event) {
         @input="handleInput"
       />
     </div>
-    <p class="is-danger help" v-if="!status.valid">{{ status.message }}</p>
+    <p class="is-danger help" role="alert" v-if="!status.valid">
+      {{ status.message }}
+    </p>
   </div>
 </template>
